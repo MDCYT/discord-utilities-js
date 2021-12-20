@@ -31,14 +31,14 @@ module.exports = {
   },
   bear: async function () {
     let dataAPI = await fetch(
-      "https://no-api-key.com/api/v1/animals/bear"
+      "https://no-api-key.com/api/v2/animals/bear"
     ).then((res) => res.json());
 
     return dataAPI.image;
   },
   bearfact: async function () {
     let dataAPI = await fetch(
-      "https://no-api-key.com/api/v1/animals/bear"
+      "https://no-api-key.com/api/v2/animals/bear"
     ).then((res) => res.json());
 
     return dataAPI.fact;
