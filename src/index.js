@@ -1,13 +1,16 @@
 const fetch = require("node-fetch");
+const { readdir, readdirSync } = require('fs');
+
+readdirSync("./routes").filter( f => !f.endsWith('.js')).forEach( dir => {
+  const routes = readdirSync(resolve(__basedir, join(path, dir))).filter(f => f.endsWith('js'));
+  routes.forEach(route => {
+    require(resolve(__basedir, join(path, dir, route)));
+  });
+});
+
 
 module.exports = {
-  dog: async function () {
-    let dataAPI = await fetch("https://no-api-key.com/api/v1/animals/dog").then(
-      (res) => res.json()
-    );
 
-    return dataAPI.image;
-  },
   dogfact: async function () {
     let dataAPI = await fetch("https://no-api-key.com/api/v1/animals/dog").then(
       (res) => res.json()
