@@ -1,32 +1,29 @@
 const fetch = require("node-fetch");
-const { readdir, readdirSync } = require('fs');
-
-readdirSync("./routes").filter( f => !f.endsWith('.js')).forEach( dir => {
-  const routes = readdirSync(resolve(__basedir, join(path, dir))).filter(f => f.endsWith('js'));
-  routes.forEach(route => {
-    require(resolve(__basedir, join(path, dir, route)));
-  });
-});
-
 
 module.exports = {
+  dog: async function () {
+    let dataAPI = await fetch("https://no-api-key.com/api/v2/animals/dog").then(
+      (res) => res.json()
+    );
 
+    return dataAPI.image;
+  },
   dogfact: async function () {
-    let dataAPI = await fetch("https://no-api-key.com/api/v1/animals/dog").then(
+    let dataAPI = await fetch("https://no-api-key.com/api/v2/animals/dog").then(
       (res) => res.json()
     );
 
     return dataAPI.fact;
   },
   cat: async function () {
-    let dataAPI = await fetch("https://no-api-key.com/api/v1/animals/cat").then(
+    let dataAPI = await fetch("https://no-api-key.com/api/v2/animals/cat").then(
       (res) => res.json()
     );
 
     return dataAPI.image;
   },
   catfact: async function () {
-    let dataAPI = await fetch("https://no-api-key.com/api/v1/animals/cat").then(
+    let dataAPI = await fetch("https://no-api-key.com/api/v2/animals/cat").then(
       (res) => res.json()
     );
 
@@ -48,84 +45,17 @@ module.exports = {
   },
   panda: async function () {
     let dataAPI = await fetch(
-      "https://no-api-key.com/api/v1/animals/panda"
+      "https://no-api-key.com/api/v2/animals/panda"
     ).then((res) => res.json());
 
     return dataAPI.image;
   },
   pandafact: async function () {
     let dataAPI = await fetch(
-      "https://no-api-key.com/api/v1/animals/panda"
+      "https://no-api-key.com/api/v2/animals/panda"
     ).then((res) => res.json());
 
     return dataAPI.fact;
-  },
-  password: async function (howmanycaracters) {
-    const newnumber = howmanycaracters || 8;
-
-    if (isNaN(newnumber)) return `${howmanycaracters} is not a number`;
-
-    if (howmanycaracters >= 500) return "Max number possible is 500";
-
-    if (howmanycaracters < 1) return "Min number possible is 2";
-
-    let dataAPI = await fetch(
-      `https://no-api-key.com/api/v1/password?length=${howmanycaracters || 8}`
-    ).then((res) => res.json());
-
-    return dataAPI.password;
-  },
-  fliptext: async function (text) {
-    let dataAPI = await fetch(
-      `https://no-api-key.com/api/v1/flip-text?text=${text.replace(" ", "%20")}`
-    ).then((res) => res.json());
-
-    return dataAPI.message;
-  },
-  binary: async function (text) {
-    let dataAPI = await fetch(
-      `https://no-api-key.com/api/v1/binary?text=${text.replace(" ", "%20")}`
-    ).then((res) => res.json());
-
-    return dataAPI.binary;
-  },
-  decodebinary: async function (text) {
-    let dataAPI = await fetch(
-      `https://no-api-key.com/api/v1/binary-text?binary=${text.replace(
-        " ",
-        "%20"
-      )}`
-    ).then((res) => res.json());
-
-    return dataAPI.text;
-  },
-  eightball: async function () {
-    let dataAPI = await fetch(`https://no-api-key.com/api/v1/magic8ball`).then(
-      (res) => res.json()
-    );
-
-    return dataAPI.response;
-  },
-  car: async function () {
-    let dataAPI = await fetch(`https://no-api-key.com/api/v1/car`).then((res) =>
-      res.json()
-    );
-
-    return dataAPI.image;
-  },
-  hug: async function () {
-    let dataAPI = await fetch(`https://no-api-key.com/api/v1/hug`).then((res) =>
-      res.json()
-    );
-
-    return dataAPI.image;
-  },
-  kiss: async function () {
-    let dataAPI = await fetch(`https://no-api-key.com/api/v1/kiss`).then(
-      (res) => res.json()
-    );
-
-    return dataAPI.image;
   },
   fox: async function () {
     let dataAPI = await fetch(`https://some-random-api.ml/img/fox`).then(
@@ -169,32 +99,97 @@ module.exports = {
 
     return dataAPI.fact;
   },
-  wink: async function () {
-    let dataAPI = await fetch(`https://some-random-api.ml/animu/wink`).then(
+  redpanda: async function () {
+    let dataAPI = await fetch(`https://some-random-api.ml/img/red_panda`).then(
       (res) => res.json()
     );
 
     return dataAPI.link;
   },
-  chatbot: async function (question) {
-    if (!question)
-      return "Please put some phrase or text to chat with the bot, for more information you can consult: https://www.npmjs.com/package/discord-utilities-js";
-
-    let dataAPI = await fetch(
-      `https://some-random-api.ml/chatbot?message=${question.replace(
-        " ",
-        "%20"
-      )}&key=XiQqC62nXixDmJbScA055WIhF`
-    ).then((res) => res.json());
-
-    if (dataAPI.error) return dataAPI.error;
-
-    if (!dataAPI.response) return "An error has occurred";
-
-    return dataAPI.response;
+  password: function (howmanycaracters = 8) {
+    if (typeof howmanycaracters !== "number" && typeof howmanycaracters !== "string") return "Error: Please enter a number or string";
+    password = "";
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789*!@#$%^&/().,?[]{}";
+    howmanycaracters = parseInt(howmanycaracters);
+    for (let i = 0; i < howmanycaracters; i++) {
+      password += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    return password;
   },
-  redpanda: async function () {
-    let dataAPI = await fetch(`https://some-random-api.ml/img/red_panda`).then(
+  fliptext: function (text) {
+    if (typeof text !== "string") return "Error: Please enter a string";
+    let newtext = text.split("").reverse().join("");
+    return newtext;
+  },
+  binary: function (text) {
+    if (typeof text !== "string") return "Error: Please enter a string";
+    // Convert text to binary
+    let binary = "";
+    for (let i = 0; i < text.length; i++) {
+      binary += text.charCodeAt(i).toString(2) + " ";
+    }
+    return binary;
+  },
+  decodebinary: function (text) {
+    if (typeof text !== "string") return "Error: Please enter a string";
+    // Convert binary to text
+    let binary = text.split(" ");
+    let textdecoded = "";
+    for (let i = 0; i < binary.length; i++) {
+      textdecoded += String.fromCharCode(parseInt(binary[i], 2));
+    }
+    return textdecoded;
+  },
+  eightball: function () {
+    let answers = [
+      "It is certain",
+      "It is decidedly so",
+      "Without a doubt",
+      "Yes, definitely",
+      "You may rely on it",
+      "As I see it, yes",
+      "Most likely",
+      "Outlook good",
+      "Yes",
+      "Signs point to yes",
+      "Reply hazy try again",
+      "Ask again later",
+      "Better not tell you now",
+      "Cannot predict now",
+      "Concentrate and ask again",
+      "Don't count on it",
+      "My reply is no",
+      "My sources say no",
+      "Outlook not so good",
+      "Very doubtful",
+    ];
+    return answers[Math.floor(Math.random() * answers.length)];
+  },
+  car: async function () {
+    let dataAPI = await fetch(`https://no-api-key.com/api/v2/car`).then((res) =>
+      res.json()
+    );
+
+    return dataAPI.image;
+  },
+  hug: async function () {
+    let dataAPI = await fetch(`https://no-api-key.com/api/v2/hug`).then((res) =>
+      res.json()
+    );
+
+    return dataAPI.image;
+  },
+  kiss: async function () {
+    let dataAPI = await fetch(`https://no-api-key.com/api/v2/kiss`).then(
+      (res) => res.json()
+    );
+
+    return dataAPI.image;
+  },
+  wink: async function () {
+    let dataAPI = await fetch(`https://some-random-api.ml/animu/wink`).then(
       (res) => res.json()
     );
 
@@ -217,19 +212,15 @@ module.exports = {
 
     return dataAPI;
   },
-  base64: async function (text) {
-    let dataAPI = await fetch(
-      `https://some-random-api.ml/base64?encode=${text.replace(" ", "%20")}`
-    ).then((res) => res.json());
-
-    return dataAPI.base64;
+  base64: function (text) {
+    if (typeof text !== "string") return "Error: Please enter a string";
+    let base64 = Buffer.from(text).toString("base64");
+    return base64;
   },
-  decodebase64: async function (text) {
-    let dataAPI = await fetch(
-      `https://some-random-api.ml/base64?decode=${text.replace(" ", "%20")}`
-    ).then((res) => res.json());
-
-    return dataAPI.text;
+  decodebase64: function (text) {
+    if (typeof text !== "string") return "Error: Please enter a string";
+    let base64 = Buffer.from(text, "base64").toString("ascii");
+    return base64;
   },
   meme: async function () {
     let dataAPI = await fetch(`https://some-random-api.ml/meme`).then((res) =>
@@ -323,11 +314,25 @@ module.exports = {
     return `https://some-random-api.ml/canvas/youtube-comment?comment=${newcomment}&username=${newusername}&avatar=${image}`;
   },
   discordbottoken: async function () {
-    let dataAPI = await fetch(`https://some-random-api.ml/bottoken`).then(
-      (res) => res.json()
-    );
+    // Say a random and fake discord bot token
+    // Example Discord Token: Nzk4MjM0MTY3OTkzMDQwOTM2.X_yDgA.PRxc17D0kHZY-gPtjgTCqhQytu4
 
-    return dataAPI.token;
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+    let token = "";
+    for (let i = 0; i < 25; i++) {
+      token += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    token += ".";
+    for (let i = 0; i < 7; i++) {
+      token += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    token += ".";
+    for (let i = 0; i < 28; i++) {
+      token += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+
+    return token;
+
   },
   sepia: async function (image) {
     if (!image)
@@ -346,13 +351,6 @@ module.exports = {
       return "You must put the link of an image that you want to edit, for more information you can read: https://www.npmjs.com/package/discord-utilities-js";
 
     return `https://some-random-api.ml/canvas/greyscale?avatar=${image}`;
-  },
-  eightball: function () {
-    const answers = [ "It is certain", "Without a doubt", "Definitely", "Most likely", "Outlook good", "Yes!", "Try again", "Reply hazy", "Can't predict", "No!", "Unlikely", "Sources say no", "Very doubtful" ];
-
-    const response = answers[Math.round((answers.length - 1) * Math.random())];
-
-    return response;
   },
   version: function () {
    var { version } = require('../package.json');

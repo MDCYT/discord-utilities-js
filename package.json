@@ -1,6 +1,6 @@
 {
-  "name": "@MDCYT/discord-utilities-js",
-  "version": "0.3.2",
+  "name": "discord-utilities-js",
+  "version": "0.3.1",
   "description": "An npm with multiple functionalities that can be used from discord bots to any type of project.",
   "main": "src/index.js",
   "scripts": {
@@ -21,17 +21,7 @@
     "discord.js",
     "discord bots"
   ],
-  "author": {
-    "name": "MDC",
-    "email": "mdc@mycommand.xyz"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/MDCYT/discord-utilities-js.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/MDCYT"
-  },
+  "author": "MDC",
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^2.6.1"
